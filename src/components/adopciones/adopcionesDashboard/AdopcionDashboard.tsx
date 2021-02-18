@@ -18,19 +18,19 @@ export const AdopcionDashboard = (): JSX.Element => {
   }, [dispatch]);
 
   return (
-    <Fragment>
-      <Grid columns={3} relaxed='very'>
-        <Grid.Column>
-          <AdopcionFilters />
-        </Grid.Column>
-
+    <Grid>
+      <Grid.Column width={10}>
         <AdopcionList petsData={petsData} loadingInitial={loadingInitial} />
+      </Grid.Column>
 
-        {/*Si se estan cargando mas eventos aparece esto abajo*/}
-        {/* <Grid.Column width='10'>
+      <Grid.Column width={6}>
+        <AdopcionFilters />
+      </Grid.Column>
+
+      {/*Si se estan cargando mas eventos aparece esto abajo*/}
+      {/* <Grid.Column width='10'>
         <Loader />
       </Grid.Column> */}
-      </Grid>
-    </Fragment>
+    </Grid>
   );
 };

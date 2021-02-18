@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Button, Icon, Segment } from 'semantic-ui-react';
 import { PetsData } from '../../../actions/pets/petsInterfaces';
 import { Link } from 'react-scroll';
@@ -9,34 +9,27 @@ interface Props {
 
 export const AdopcionDetailSidebar: React.FC<Props> = ({ selectedPet }) => {
   return (
-    <Fragment>
-      <Segment
-        style={{ border: 'none' }}
-        attached
-        inverted
-        textAlign='center'
-        color='orange'
-      >
-        <Button.Group vertical>
-          <Button
-            as={Link}
-            to='contact-form'
-            spy={true}
-            smooth={true}
-            size='medium'
-            inverted
-            style={{ marginBottom: '15px' }}
-            content={`PREGUNTAR ACERCA DE ${selectedPet?.name.toLocaleUpperCase()}`}
-          />
-          <Button inverted size='medium'>
-            <Icon name='heart outline' /> AGREGAR A FAVORITOS
-          </Button>
-        </Button.Group>
-      </Segment>
-
-      <Button color='red' size='medium' attached='bottom'>
-        <Icon name='share' /> COMPARTIR
-      </Button>
-    </Fragment>
+    <Segment textAlign='center'>
+      <Button.Group vertical>
+        <Button
+          style={{ marginBottom: '10px' }}
+          as={Link}
+          basic
+          to='contact-form'
+          spy={true}
+          smooth={true}
+          size='medium'
+          color='orange'
+          content={`PREGUNTAR ACERCA DE ${selectedPet?.name.toLocaleUpperCase()}`}
+        />
+        <Button style={{ marginBottom: '10px' }} basic size='medium' color='orange'>
+          <Icon name='heart outline' /> AGREGAR A FAVORITOS
+        </Button>
+        <Button basic color='orange' size='medium' animated='vertical'>
+          <Button.Content hidden content={<Icon name='share' />} />
+          <Button.Content visible content='COMPARTIR' />
+        </Button>
+      </Button.Group>
+    </Segment>
   );
 };

@@ -43,7 +43,7 @@ export const pets = [
     name: 'cookie',
     location: 'san jose',
     adopted: true,
-    breed: 'pastor aleman',
+    breed: 'salchicha',
     photosUrl: [
       'https://image.shutterstock.com/image-photo/australian-shepherd-playing-outdoors-sunset-600w-1707173203.jpg',
       'https://image.shutterstock.com/image-photo/cropped-image-handsome-young-man-600w-708732331.jpg',
@@ -67,6 +67,19 @@ export const pets = [
   {
     id: 6,
     name: 'milo',
+    location: 'san jose',
+    adopted: false,
+    breed: 'salchicha',
+    photosUrl: [
+      'https://image.shutterstock.com/image-photo/australian-shepherd-playing-outdoors-sunset-600w-1707173203.jpg',
+      'https://image.shutterstock.com/image-photo/cropped-image-handsome-young-man-600w-708732331.jpg',
+      'https://image.shutterstock.com/image-photo/pure-youth-crazy-english-cocker-600w-1424153078.jpg',
+    ],
+    description: 'jugueton, feliz, contento',
+  },
+  {
+    id: 7,
+    name: 'marino',
     location: 'san jose',
     adopted: false,
     breed: 'pastor aleman',

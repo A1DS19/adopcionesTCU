@@ -17,3 +17,7 @@ export const contactFormValidationSchema = Yup.object({
   message: Yup.string().max(5000).required('El mensaje es requerido'),
   cellNumber: Yup.string().phone().required(),
 });
+
+export const newsLetterValidationSchema = Yup.object({
+  email: Yup.string().required('Debe agregar un email').email(),
+});

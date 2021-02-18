@@ -8,19 +8,23 @@ interface Props {
   currentUser: AuthPayload | null;
 }
 
-export const SignedInMenu: React.FC<Props> = (props): JSX.Element => {
+export const SignedInMenu: React.FC<Props> = ({
+  currentUser,
+  handleSignOut,
+}): JSX.Element => {
   return (
     <Fragment>
       <Menu.Item position='right'>
-        <Image
-          avatar
-          spaced='right'
-          src={props.currentUser?.photoURL || '/assets/user.png'}
-        />
-        <Dropdown pointing='top left' text={props.currentUser?.displayName}>
+        <Image avatar spaced='right' src={currentUser?.photoURL || '/assets/user.png'} />
+        <Dropdown pointing='top left' text={currentUser?.displayName}>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to='/' text='MI PERFIL' icon='user' />
-            <Dropdown.Item text='SALIR' icon='power' onClick={props.handleSignOut} />
+            <Dropdown.Item
+              as={Link}
+              to={`/profile/${currentUser?.id}`}
+              text='MI PERFIL'
+              icon='user'
+            />
+            <Dropdown.Item text='SALIR' icon='power' onClick={handleSignOut} />
           </Dropdown.Menu>
         </Dropdown>
       </Menu.Item>

@@ -24,37 +24,35 @@ export const AdopcionListItem: React.FC<EventListItemProps> = ({ pet }): JSX.Ele
   };
 
   return (
-    <Card.Group>
-      <Card as={Link} to={`/adopcion/${pet.id}`}>
-        <Image
-          fluid
-          label={{
-            color: `${pet.adopted ? 'red' : 'green'}`,
-            content: `${pet.adopted ? 'Adoptado' : 'Disponible'}`,
-            ribbon: 'right',
-          }}
-          src={pet.photosUrl[0]}
-        />
-        <Card.Content textAlign='center'>
-          <Card.Header>
-            {' '}
-            <p style={{ color: 'orange' }}>{pet.name}</p>{' '}
-          </Card.Header>
-          <Card.Meta>
-            <Icon name='point' /> {pet.location}
-          </Card.Meta>
-          <Card.Description>{pet.description}</Card.Description>
-          {authenticated && (
-            <Button
-              style={{ marginTop: '10px' }}
-              fluid
-              onClick={() => handleDelete(1)}
-              color='red'
-              content='Borrar'
-            />
-          )}
-        </Card.Content>
-      </Card>
-    </Card.Group>
+    <Card fluid as={Link} to={`/adoption/${pet.id}`}>
+      <Image
+        fluid
+        label={{
+          color: `${pet.adopted ? 'red' : 'green'}`,
+          content: `${pet.adopted ? 'Adoptado' : 'Disponible'}`,
+          ribbon: 'right',
+        }}
+        src={pet.photosUrl[0]}
+      />
+      <Card.Content textAlign='center'>
+        <Card.Header>
+          {' '}
+          <p style={{ color: 'orange' }}>{pet.name}</p>{' '}
+        </Card.Header>
+        <Card.Meta>
+          <Icon name='point' /> {pet.location}
+        </Card.Meta>
+        <Card.Description>{pet.description}</Card.Description>
+        {authenticated && (
+          <Button
+            style={{ marginTop: '10px' }}
+            fluid
+            onClick={() => handleDelete(1)}
+            color='red'
+            content='Borrar'
+          />
+        )}
+      </Card.Content>
+    </Card>
   );
 };

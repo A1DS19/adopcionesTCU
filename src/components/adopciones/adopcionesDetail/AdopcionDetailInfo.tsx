@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Header, Icon, Item, Segment } from 'semantic-ui-react';
+import { Divider, Icon, Item, Segment } from 'semantic-ui-react';
 import { PetsData } from '../../../actions/pets/petsInterfaces';
 
 interface Props {

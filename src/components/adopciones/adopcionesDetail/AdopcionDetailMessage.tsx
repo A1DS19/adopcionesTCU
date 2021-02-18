@@ -11,6 +11,7 @@ interface Props {
 
 export const AdopcionDetailMessage: React.FC<Props> = ({ selectedPet }) => {
   const { currentUser } = useSelector((state: StoreState) => state.auth);
+
   return (
     <Grid style={{ marginTop: '10px' }}>
       <Grid.Column width={7}>

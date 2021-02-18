@@ -11,20 +11,18 @@ export const AdopcionDetailListItem: React.FC<EventListItemProps> = ({
   selectedBreedPet,
 }): JSX.Element => {
   return (
-    <Card.Group itemsPerRow={1}>
-      <Card as={Link} to={`/adopcion/${selectedBreedPet.id}`}>
-        <Image fluid src={selectedBreedPet.photosUrl[0]} />
-        <Card.Content textAlign='center'>
-          <Card.Header>
-            {' '}
-            <p style={{ color: 'orange' }}>{selectedBreedPet.name}</p>{' '}
-          </Card.Header>
-          <Card.Meta>
-            <Icon name='point' /> {selectedBreedPet.location}
-          </Card.Meta>
-          <Card.Description>{selectedBreedPet.description}</Card.Description>
-        </Card.Content>
-      </Card>
-    </Card.Group>
+    <Card as={Link} to={`/adoption/${selectedBreedPet.id}`}>
+      <Image fluid src={selectedBreedPet.photosUrl[0]} />
+      <Card.Content textAlign='center'>
+        <Card.Header>
+          {' '}
+          <p style={{ color: 'orange' }}>{selectedBreedPet.name}</p>{' '}
+        </Card.Header>
+        <Card.Meta>
+          <Icon name='point' /> {selectedBreedPet.location}
+        </Card.Meta>
+        <Card.Description>{selectedBreedPet.description}</Card.Description>
+      </Card.Content>
+    </Card>
   );
 };

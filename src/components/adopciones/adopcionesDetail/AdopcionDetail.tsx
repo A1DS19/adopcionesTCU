@@ -20,7 +20,7 @@ interface Props extends RouteComponentProps<MatchParams> {}
 export const AdopcionDetail = ({ match }: Props) => {
   const petId = parseInt(match.params.id);
   const selectedPetData = usePetData(petId);
-  const { selectedPet } = useSelector((state: StoreState) => state.pets);
+  const { petsData, selectedPet } = useSelector((state: StoreState) => state.pets);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export const AdopcionDetail = ({ match }: Props) => {
 
         <Grid.Row>
           <Grid.Column width={16}>
-            <AdopcionDetailPetBreedList selectedPet={selectedPet} />
+            <AdopcionDetailPetBreedList petsData={petsData} selectedPet={selectedPet} />
           </Grid.Column>
         </Grid.Row>
       </Grid>
