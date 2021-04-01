@@ -32,7 +32,8 @@
     "@types/uuid": "^8.3.0",
     "colors": "^1.4.0",
     "concurrently": "^6.0.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "rimraf": "^3.0.2"
   },
   "dependencies": {
     "aws-sdk": "^2.874.0",
