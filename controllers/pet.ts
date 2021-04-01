@@ -230,8 +230,8 @@ export const sendEmail = async (req: Request, res: Response, next: NextFunction)
     } as SMTPTransport.Options);
 
     const info = await transporter.sendMail({
-      from: 'jp06171@gmail.com', // sender address
-      to: 'jp06171@gmail.com', // list of receivers
+      from: process.env.EMAIL_RECIPIENT, // sender address
+      to: process.env.EMAIL_RECIPIENT, // list of receivers
       subject: `Nueva consulta acerca de ${pet?.name}`, // Subject line
       html: output, // html body
     });
