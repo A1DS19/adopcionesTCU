@@ -11,11 +11,11 @@ export const AdopcionDetailListItem: React.FC<EventListItemProps> = ({
   selectedBreedPet,
 }): JSX.Element => {
   return (
-    <Card as={Link} to={`/adoption/${selectedBreedPet?.id}`}>
+    <Card as={Link} to={`/adoption/${selectedBreedPet?._id}`}>
       <Image
         fluid
         src={
-          selectedBreedPet.photosUrl
+          selectedBreedPet.photosUrl?.length! > 0
             ? selectedBreedPet?.photosUrl![0]
             : '/assets/pet-house.png'
         }

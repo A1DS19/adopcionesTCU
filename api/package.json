@@ -2,12 +2,15 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "TCU 2021",
-  "main": "app.js",
+  "main": "app.ts",
   "scripts": {
-    "server": "nodemon src/app.ts",
-    "client": "npm start --prefix client",
+    "server": "nodemon app.ts",
+    "client": "npm start --prefix ../client",
+    "tslint": "tslint --project tsconfig.json --config tslint.json",
+    "tslint-fix": "tslint --project tsconfig.json --config tslint.json --fix",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "start": "tsc && node dist/app.js"
+    "build": "rimraf ./build && tsc",
+    "start": "npm run build && node build/app.js"
   },
   "engines": {
     "node": "14.16.0"
@@ -33,7 +36,10 @@
     "concurrently": "^6.0.0",
     "nodemon": "^2.0.7",
     "rimraf": "^3.0.2",
-    "typescript": "^4.2.3"
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3",
+    "webpack": "^5.30.0",
+    "webpack-cli": "^4.6.0"
   },
   "dependencies": {
     "aws-sdk": "^2.874.0",
