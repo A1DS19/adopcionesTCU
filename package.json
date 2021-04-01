@@ -2,13 +2,15 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "TCU 2021",
-  "main": "app.ts",
+  "main": "app.js",
   "scripts": {
-    "start": "npm run build && node build/index.js",
-    "server": "nodemon app.ts",
+    "start": "node dist/app.js",
+    "server": "nodemon src/app.ts",
+    "build:server": "tsc -p .",
+    "build:client": "npm run build --prefix client",
+    "build": "concurrently \"npm run build:client\" \"npm run build:server\"",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "deploy": "git add . && git commit -m 'cambios' && rimraf ./build && tsc && Heroku && git push heroku main"
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "engines": {
     "node": "14.16.0"
