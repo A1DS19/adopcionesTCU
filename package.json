@@ -4,14 +4,11 @@
   "description": "TCU 2021",
   "main": "app.ts",
   "scripts": {
-    "start": "node app.ts",
+    "start": "npm run build && node build/index.js",
     "server": "nodemon app.ts",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "postinstall": "tsc",
-    "watch-node": "nodemon dist/index.js",
-    "watch-ts": "tsc -w",
-    "deploy": "git add . && git commit -m Heroku && git push heroku main"
+    "deploy": "git add . && git commit -m 'cambios' && rimraf ./build && tsc && Heroku && git push heroku main"
   },
   "engines": {
     "node": "14.16.0"
