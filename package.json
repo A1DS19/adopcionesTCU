@@ -6,9 +6,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "server": "nodemon src/app.ts",
-    "build:server": "tsc -p .",
-    "build:client": "npm run build --prefix client",
-    "build": "concurrently \"npm run build:client\" \"npm run build:server\"",
+    "build": "tsc -p .",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
