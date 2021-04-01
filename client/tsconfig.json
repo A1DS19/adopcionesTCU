@@ -15,8 +15,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "rootDir": "src",
-    "outDir": "build"
+    "declarationDir": "dist",
+    "rootDir": "src"
   },
-  "exclude": [".idea", "build", "node_modules", "typings/globals", "typings/modules"]
+  "include": ["src"]
 }
