@@ -14,6 +14,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
-  }
+    "jsx": "react-jsx",
+    "rootDir": "./"
+  },
+  "exclude": ["node_module", "./dist", "global.d.ts"]
 }

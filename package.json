@@ -4,7 +4,7 @@
   "description": "TCU 2021",
   "main": "app.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p src",
     "prestart": "npm run build",
     "start": "ts-node ./src/app.ts",
     "server": "nodemon ./src/app.ts",
