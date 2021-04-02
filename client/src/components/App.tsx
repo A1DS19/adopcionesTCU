@@ -1,5 +1,5 @@
 import '../App.css';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 import { ToastContainer } from 'react-toastify';
