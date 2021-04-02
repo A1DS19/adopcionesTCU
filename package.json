@@ -4,13 +4,13 @@
   "description": "TCU 2021",
   "main": "app.ts",
   "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "ts-node app.ts",
     "server": "nodemon app.ts",
-    "client": "npm start --prefix ../client",
-    "tslint": "tslint --project tsconfig.json --config tslint.json",
-    "tslint-fix": "tslint --project tsconfig.json --config tslint.json --fix",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "rimraf ./build && tsc",
-    "start": "npm run build && node build/app.js"
+    "client": "npm start --prefix ./client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "engines": {
     "node": "14.16.0"
