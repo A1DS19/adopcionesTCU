@@ -4,11 +4,10 @@
   "description": "TCU 2021",
   "main": "dist/app.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
+    "postinstall": "npm run build",
     "start": "node dist/app.js",
-    "server": "ts-node-dev ./src/app.ts",
-    "client": "npm start --prefix ../client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "nodemon --exec ts-node src/app.ts"
   },
   "engines": {
     "node": "14.16.0"
