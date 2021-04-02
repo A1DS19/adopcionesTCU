@@ -2,9 +2,10 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "TCU 2021",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
+    "start": "node dist/app.js",
     "server": "ts-node-dev ./src/app.ts",
     "client": "npm start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
