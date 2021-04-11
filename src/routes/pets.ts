@@ -43,7 +43,6 @@ router.post(
       .isEmpty()
       .withMessage('Debe decir si la mascota es adoptada o no'),
     body('description')
-      .trim()
       .not()
       .isEmpty()
       .withMessage('Debe incluir la descripccion de la mascota'),
