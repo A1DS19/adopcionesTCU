@@ -6,7 +6,7 @@ import { s3delete } from '../services/s3-delete';
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await User.find();
+    const users = await User.find().sort({ createdAt: -1 });
 
     if (!users) {
       return res.status(404).json({ msg: 'No hay usuarios' });

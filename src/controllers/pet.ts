@@ -143,7 +143,8 @@ export const getPets = async (req: Request, res: Response, next: NextFunction) =
     const totalPets = await Pet.countDocuments();
     const pets = await Pet.find()
       .limit(limit * 1)
-      .skip(+page! * limit);
+      .skip(+page! * limit)
+      .sort({ createdAt: -1 });
 
     if (!pets) {
       return res.status(404).json({ msg: 'No hay usuarios' });
