@@ -197,16 +197,16 @@ export const deletePet = async (req: Request, res: Response, next: NextFunction)
       return res.status(404).json({ msg: 'Mascota no existe' });
     }
 
-    pet.status = 0;
-    pet.photosUrl = [];
-    await pet.save();
-
     if (pet.photosUrl) {
       pet.photosUrl.map(async (img: string) => {
         let Key = img.split('https://s3.amazonaws.com/adoptme.cr/')[1];
         await s3delete({ Bucket: process.env.AWS_S3_BUCKET!, Key: Key });
       });
     }
+
+    pet.status = 0;
+    pet.photosUrl = [];
+    await pet.save();
 
     res.status(200).json({
       msg: 'Mascota eliminada',
