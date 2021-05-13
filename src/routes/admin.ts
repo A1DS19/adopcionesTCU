@@ -5,12 +5,26 @@ import {
   getUser,
   deleteUser,
   updateUser,
+  getUserByCedula,
 } from '../controllers/admin';
 import { body } from 'express-validator';
 import { isAdmin } from '../middleware/isAdmin';
 const router = Router();
 
 router.get('/users', isAdmin, getUsers);
+router.post(
+  '/users/get-user-cedula',
+  isAdmin,
+  [
+    body('cedula')
+      .trim()
+      .toLowerCase()
+      .not()
+      .isEmpty()
+      .withMessage('Debe agregar la cedula para buscar usuario'),
+  ],
+  getUserByCedula
+);
 router.get('/user/:userId', isAdmin, getUser);
 
 router.post(

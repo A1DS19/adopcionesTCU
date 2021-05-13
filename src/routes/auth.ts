@@ -9,6 +9,8 @@ import {
   deleteUser,
   updateUserPassword,
   uploadUserPFP,
+  addFavorite,
+  getFavorite,
 } from '../controllers/auth';
 import { isAuth } from '../middleware/isAuth';
 const router = Router();
@@ -61,6 +63,8 @@ router.put(
       .withMessage('Debe agregar su nombre de usuario'),
     body('name').trim().not().isEmpty().withMessage('Debe agregar su nombre'),
     body('lastName').trim().not().isEmpty().withMessage('Debe agregar su apellido'),
+    body('phone').trim().not().isEmpty().withMessage('Debe agregar su telefone'),
+    body('direction').trim().not().isEmpty().withMessage('Debe agregar su direccion'),
   ],
   updateUserData
 );
@@ -81,7 +85,11 @@ router.put(
   updateUserPassword
 );
 
+router.put('/user/add-favorite/:userId/:petId/:exists', isAuth, addFavorite);
+router.get('/user/get-favorite/:userId', isAuth, getFavorite);
+
 router.delete('/user/:userId', isAuth, deleteUser);
 
-router.post('/user/upload/:userId', isAuth, upload.single('image'), uploadUserPFP);
+// router.post('/user/upload/:userId', isAuth, upload.single('image'), uploadUserPFP);
+
 export { router };

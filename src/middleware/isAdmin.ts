@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   //si el Authorization header existe lo va a dejar pasar
   const authorizationHeader = req.get('Authorization');
+
   if (!authorizationHeader) {
     return res.status(401).json({ msg: 'Header de autenticación invalido' });
   }
@@ -12,7 +13,7 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   //lo separa en el espacio entre 'Bearer ' y 'token'
   // const token = authorizationHeader.split(' ')[1];
 
-  const token = authorizationHeader;
+  const token = authorizationHeader.split(' ')[1];
   let decodedToken;
 
   try {

@@ -8,6 +8,9 @@ import {
   getPets,
   uploadPetPictures,
   sendEmail,
+  getPetByName,
+  getAdoptedPets,
+  updateFollowUpDate,
 } from '../controllers/pet';
 import { body } from 'express-validator';
 import { upload } from '../services/s3-upload';
@@ -15,7 +18,11 @@ const router = Router();
 
 router.get('/pets', getPets);
 
+router.get('/adopted-pets', isAdmin, getAdoptedPets);
+
 router.get('/pet/:petId', getPet);
+
+router.put('/pet/update-followUpDate/:petId', isAdmin, updateFollowUpDate);
 
 router.post(
   '/pet',
@@ -24,6 +31,7 @@ router.post(
     body('name')
       .trim()
       .not()
+      .toLowerCase()
       .isEmpty()
       .withMessage('Debe incluir el nombre de la mascota'),
     body('location')
@@ -58,6 +66,7 @@ router.put(
       .trim()
       .not()
       .isEmpty()
+      .toLowerCase()
       .withMessage('Debe incluir el nombre de la mascota'),
     body('location')
       .trim()
@@ -94,22 +103,36 @@ router.post(
 );
 
 router.post(
-  '/send',
+  '/pet/get-by-name',
+  isAdmin,
   [
-    body('email')
+    body('name')
       .trim()
-      .isEmail()
-      .normalizeEmail()
-      .withMessage('Debe incluir un email valido'),
-    body('message')
+      .toLowerCase()
       .not()
       .isEmpty()
-      .isLength({ max: 5000 })
-      .withMessage('Debe incluir un mensaje y que esta tenga maximo 5000 caracteres'),
-    body('userName').not().isEmpty().withMessage('Debe incluir su nombre'),
-    body('petId').not().isEmpty(),
+      .withMessage('Debe agregar un nombre o ID para buscar animal'),
   ],
-  sendEmail
+  getPetByName
 );
+
+// router.post(
+//   '/send',
+//   [
+//     body('email')
+//       .trim()
+//       .isEmail()
+//       .normalizeEmail()
+//       .withMessage('Debe incluir un email valido'),
+//     body('message')
+//       .not()
+//       .isEmpty()
+//       .isLength({ max: 5000 })
+//       .withMessage('Debe incluir un mensaje y que esta tenga maximo 5000 caracteres'),
+//     body('userName').not().isEmpty().withMessage('Debe incluir su nombre'),
+//     body('petId').not().isEmpty(),
+//   ],
+//   sendEmail
+// );
 
 export { router };

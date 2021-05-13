@@ -3,6 +3,8 @@ import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User, IUser } from '../models/user';
+import { Pet } from '../models/pet';
+import mongoose from 'mongoose';
 
 interface MulterRequest extends Request {
   file: any;
@@ -14,19 +16,17 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     return res.status(422).json(errors.array());
   }
 
-  const { email, displayName, password } = req.body;
+  const { email, displayName, password, cedula } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
-
     if (existingUser) {
       return res.status(401).json({ msg: 'El email ya existe' });
     }
 
-    const existingUser2 = await User.findOne({ displayName });
-
-    if (existingUser2) {
-      return res.status(401).json({ msg: 'El nombre de usuario ya existe' });
+    const existingUser3 = await User.findOne({ cedula });
+    if (existingUser3) {
+      return res.status(401).json({ msg: 'Esa cedula ya existe' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -34,6 +34,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     const user = new User({
       email,
       displayName,
+      cedula,
       password: hashedPassword,
     });
 
@@ -58,6 +59,10 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
       displayName: newUser?.displayName,
       createdAt: newUser?.createdAt,
       photoURL: newUser?.photoURL,
+      wishlist: newUser?.wishlist,
+      cedula: newUser.cedula,
+      phone: newUser.phone,
+      direction: newUser.direction,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -76,6 +81,10 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     const existingUser = await User.findOne({ email });
 
     if (!existingUser) {
+      return res.status(401).json({ msg: 'Datos invalidos' });
+    }
+
+    if (existingUser.status === 0) {
       return res.status(401).json({ msg: 'Datos invalidos' });
     }
 
@@ -104,6 +113,10 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
       displayName: existingUser?.displayName,
       createdAt: existingUser?.createdAt,
       photoURL: existingUser?.photoURL,
+      wishlist: existingUser?.wishlist,
+      cedula: existingUser.cedula,
+      phone: existingUser.phone,
+      direction: existingUser.direction,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -114,7 +127,7 @@ export const getCurrentUser = async (req: Request, res: Response, next: NextFunc
   const { userId } = req.params;
 
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate('whislist');
 
     if (!user) {
       res.status(404).json({ msg: 'Usuario no existe' });
@@ -130,6 +143,10 @@ export const getCurrentUser = async (req: Request, res: Response, next: NextFunc
       displayName: user?.displayName,
       createdAt: user?.createdAt,
       photoURL: user?.photoURL,
+      wishlist: user?.wishlist,
+      cedula: user?.cedula,
+      phone: user?.phone,
+      direction: user?.direction || '',
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -143,7 +160,7 @@ export const updateUserData = async (req: Request, res: Response, next: NextFunc
   }
 
   const { userId } = req.params;
-  const { name, lastName, displayName } = req.body;
+  const { name, lastName, displayName, phone, direction } = req.body;
 
   try {
     const user = await User.findById(userId);
@@ -155,6 +172,8 @@ export const updateUserData = async (req: Request, res: Response, next: NextFunc
     user.displayName = displayName;
     user.name = name;
     user.lastName = lastName;
+    user.phone = phone;
+    user.direction = direction;
 
     const updatedUser = await user.save();
 
@@ -168,6 +187,10 @@ export const updateUserData = async (req: Request, res: Response, next: NextFunc
       displayName: updatedUser?.displayName,
       createdAt: updatedUser?.createdAt,
       photoURL: updatedUser?.photoURL,
+      wishlist: updatedUser?.wishlist,
+      cedula: updatedUser?.cedula,
+      phone: updatedUser?.phone,
+      direction: updatedUser?.direction,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -184,7 +207,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
       return res.status(404).json({ msg: 'Usuario no existe' });
     }
 
-    await User.findByIdAndDelete(user.id);
+    await User.findByIdAndUpdate(user._id, { status: 0, photoURL: '' });
 
     res.status(200).json({
       msg: 'Usuario eliminado',
@@ -260,7 +283,68 @@ export const uploadUserPFP = async (req: Request, res: Response, next: NextFunct
       displayName: updatedUser?.displayName,
       createdAt: updatedUser?.createdAt,
       photoURL: updatedUser?.photoURL,
+      wishlist: updatedUser?.wishlist,
     });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+export const addFavorite = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId, petId, exists } = req.params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(401).json({ msg: 'Datos invalidos' });
+    }
+
+    if (user.status === 0) {
+      return res.status(401).json({ msg: 'Datos invalidos' });
+    }
+
+    if (JSON.parse(exists)) {
+      user.wishlist = user.wishlist.filter((x) => x.toString() !== petId.toString());
+    } else {
+      user.wishlist.push(petId);
+    }
+    await user.save();
+
+    res.status(201).json({
+      msg: 'Item agregado',
+      id: user?.id,
+      name: user?.name,
+      email: user?.email,
+      lastName: user?.lastName,
+      isAdmin: user?.isAdmin,
+      displayName: user?.displayName,
+      createdAt: user?.createdAt,
+      photoURL: user?.photoURL,
+      wishlist: user?.wishlist,
+    });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+export const getFavorite = async (req: Request, res: Response, next: NextFunction) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(401).json({ msg: 'Datos invalidos' });
+    }
+
+    if (user.status === 0) {
+      return res.status(401).json({ msg: 'Datos invalidos' });
+    }
+
+    const pets = await User.findById(userId).populate('wishlist').select('wishlist');
+
+    res.status(201).json(pets?.wishlist);
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }

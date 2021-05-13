@@ -12,7 +12,7 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
   //lo separa en el espacio entre 'Bearer ' y 'token'
   // const token = authorizationHeader.split(' ')[1];
 
-  const token = authorizationHeader;
+  const token = authorizationHeader.split(' ')[1];
   let decodedToken;
 
   try {

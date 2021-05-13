@@ -12,6 +12,11 @@ export interface IUser extends Document {
   isAdmin: isAdmin;
   createdAt: Date;
   photoURL: string;
+  status: number;
+  cedula: string;
+  phone: string;
+  direction: string;
+  wishlist: string[];
 }
 
 const UserSchema: Schema = new Schema(
@@ -26,12 +31,16 @@ const UserSchema: Schema = new Schema(
     },
     displayName: {
       type: String,
-      required: true,
     },
     name: { type: String },
     lastName: { type: String },
     isAdmin: { type: String, default: 'false' },
     photoURL: { type: String },
+    direction: { type: String },
+    status: { type: Number, default: 1 },
+    cedula: { type: String },
+    phone: { type: String },
+    wishlist: [{ type: mongoose.Types.ObjectId, ref: 'Pet', default: [] }],
   },
   { timestamps: true }
 );
