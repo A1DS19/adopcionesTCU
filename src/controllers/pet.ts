@@ -391,7 +391,7 @@ export const updateFollowUpDate = async (
   const { petId } = req.params;
 
   try {
-    const pet = await Pet.findById(petId);
+    const pet = await Pet.findById(petId).populate('adopteeId');
 
     if (!pet) {
       return res.status(404).json({ msg: 'Mascota no existe' });
