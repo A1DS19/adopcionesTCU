@@ -16,7 +16,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     return res.status(422).json(errors.array());
   }
 
-  const { email, displayName, password, cedula } = req.body;
+  const { email, displayName, password, cedula, donation } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -35,6 +35,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
       email,
       displayName,
       cedula,
+      donation,
       password: hashedPassword,
     });
 
@@ -63,6 +64,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
       cedula: newUser.cedula,
       phone: newUser.phone,
       direction: newUser.direction,
+      donation: newUser.donation,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -117,6 +119,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
       cedula: existingUser.cedula,
       phone: existingUser.phone,
       direction: existingUser.direction,
+      donation: existingUser.donation,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -147,6 +150,7 @@ export const getCurrentUser = async (req: Request, res: Response, next: NextFunc
       cedula: user?.cedula,
       phone: user?.phone,
       direction: user?.direction || '',
+      existingUser: user?.donation,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -191,6 +195,7 @@ export const updateUserData = async (req: Request, res: Response, next: NextFunc
       cedula: updatedUser?.cedula,
       phone: updatedUser?.phone,
       direction: updatedUser?.direction,
+      donation: updatedUser.donation,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });

@@ -17,6 +17,7 @@ export interface IUser extends Document {
   phone: string;
   direction: string;
   wishlist: string[];
+  donation: string;
 }
 
 const UserSchema: Schema = new Schema(
@@ -41,6 +42,7 @@ const UserSchema: Schema = new Schema(
     cedula: { type: String },
     phone: { type: String },
     wishlist: [{ type: mongoose.Types.ObjectId, ref: 'Pet', default: [] }],
+    donation: { type: String, default: 'false' },
   },
   { timestamps: true }
 );

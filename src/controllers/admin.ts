@@ -70,6 +70,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     phone,
     cedula,
     direction,
+    donation,
   } = req.body;
 
   try {
@@ -96,6 +97,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
       phone,
       cedula,
       direction,
+      donation,
     });
 
     const newUser = await user.save();
@@ -114,6 +116,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
       phone: newUser?.phone,
       cedula: newUser?.cedula,
       direction: newUser?.direction,
+      donation: newUser.donation,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -145,6 +148,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
       cedula: user?.cedula,
       phone: user?.phone,
       direction: user?.direction || '',
+      donation: user?.donation,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -183,16 +187,8 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
   }
 
   const { userId } = req.params;
-  const {
-    name,
-    lastName,
-    displayName,
-    email,
-    isAdmin,
-    phone,
-    cedula,
-    direction,
-  } = req.body;
+  const { name, lastName, displayName, email, isAdmin, phone, cedula, direction } =
+    req.body;
 
   try {
     const user = await User.findById(userId);
@@ -227,6 +223,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
       cedula: updatedUser?.cedula,
       phone: updatedUser?.phone,
       direction: updatedUser?.direction || '',
+      donation: updatedUser.donation,
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
