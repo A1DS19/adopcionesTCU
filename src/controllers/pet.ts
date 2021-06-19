@@ -1,3 +1,4 @@
+import { IUser } from './../models/user';
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import { Pet } from '../models/pet';
@@ -106,9 +107,14 @@ export const updatePet = async (req: Request, res: Response, next: NextFunction)
       return res.status(404).json({ msg: 'Mascota no existe' });
     }
 
-    const adoptee = await User.findOne({ cedula: adopteeId });
-    if (!adoptee) {
-      return res.status(404).json({ msg: 'Esa cedula no corresponde a ningun usuario' });
+    let adoptee: IUser | null = null;
+    if (adopteeId) {
+      adoptee = await User.findOne({ cedula: adopteeId });
+      if (!adoptee) {
+        return res
+          .status(404)
+          .json({ msg: 'Esa cedula no corresponde a ningun usuario' });
+      }
     }
 
     if (JSON.parse(pet.adopted)) {
@@ -125,7 +131,7 @@ export const updatePet = async (req: Request, res: Response, next: NextFunction)
     pet.size = size;
     pet.adoptionDate = adoptionDate;
     pet.adoptionPlace = adoptionPlace;
-    pet.adopteeId = adoptee._id;
+    pet.adopteeId = adoptee ? adoptee._id : '';
     pet.employee = employee;
 
     const updatedPet = await pet.save();
@@ -142,11 +148,11 @@ export const updatePet = async (req: Request, res: Response, next: NextFunction)
       size: updatedPet.size,
       adoptionDate: updatedPet.adoptionDate,
       adoptionPlace: updatedPet.adoptionPlace,
-      adopteeId: adopteeId,
+      adopteeId: updatedPet.adopteeId,
       employee: updatedPet.employee,
       followUpDate: updatedPet.followUpDate,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -182,7 +188,7 @@ export const getPet = async (req: Request, res: Response, next: NextFunction) =>
       employee: pet?.employee,
       followUpDate: pet?.followUpDate,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
