@@ -66,7 +66,7 @@ router.post(
         }
 
         req.login(user, () => {
-          const token = jwt.sign({ user }, process.env.JWT_SECRET_KEY as string);
+          const token = jwt.sign({ user }, process.env.JWT_SECRET_KEY as any);
 
           return res.json({
             token,
@@ -122,7 +122,7 @@ router.post(
         }
 
         req.login(user, () => {
-          const token = jwt.sign({ user }, process.env.JWT_SECRET_KEY as string);
+          const token = jwt.sign({ user }, process.env.JWT_SECRET_KEY as any);
           return res.json({
             token,
             id: user?.id,

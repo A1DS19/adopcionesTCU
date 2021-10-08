@@ -53,14 +53,14 @@ const UserSchema: Schema = new Schema(
 );
 
 //Antes de guardar un documento va a hashear la contrasena, NO se puede hacer user.save() sin rescribir la contraseña
-UserSchema.pre('save', async function (this: IUser, next) {
-  const user = this;
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(user.password, salt);
+// UserSchema.pre('save', async function (this: IUser, next) {
+//   const user = this;
+//   const salt = await bcrypt.genSalt(10);
+//   const hashedPassword = await bcrypt.hash(user.password, salt);
 
-  this.password = hashedPassword;
-  next();
-});
+//   this.password = hashedPassword;
+//   next();
+// });
 
 //Compara contrasenas y devuelve valor booleano
 UserSchema.methods.isValidPassword = async function (password) {
