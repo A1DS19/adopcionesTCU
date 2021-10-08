@@ -9,12 +9,13 @@ import {
 } from '../controllers/admin';
 import { body } from 'express-validator';
 import { isAdmin } from '../middleware/isAdmin';
+import passport from 'passport';
 const router = Router();
 
-router.get('/users', isAdmin, getUsers);
+router.get('/users', passport.authenticate('isAdmin', { session: false }), getUsers);
 router.post(
   '/users/get-user-cedula',
-  isAdmin,
+  passport.authenticate('isAdmin', { session: false }),
   [
     body('cedula')
       .trim()
@@ -25,11 +26,15 @@ router.post(
   ],
   getUserByCedula
 );
-router.get('/user/:userId', isAdmin, getUser);
+router.get(
+  '/user/:userId',
+  passport.authenticate('isAdmin', { session: false }),
+  getUser
+);
 
 router.post(
   '/user',
-  isAdmin,
+  passport.authenticate('isAdmin', { session: false }),
   [
     body('email')
       .trim()
@@ -57,7 +62,7 @@ router.post(
 );
 router.put(
   '/user/:userId',
-  isAdmin,
+  passport.authenticate('isAdmin', { session: false }),
   [
     body('email')
       .trim()
@@ -79,6 +84,10 @@ router.put(
   ],
   updateUser
 );
-router.delete('/user/:userId', isAdmin, deleteUser);
+router.delete(
+  '/user/:userId',
+  passport.authenticate('isAdmin', { session: false }),
+  deleteUser
+);
 
 export { router };

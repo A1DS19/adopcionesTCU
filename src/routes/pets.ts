@@ -14,19 +14,28 @@ import {
 } from '../controllers/pet';
 import { body } from 'express-validator';
 import { upload } from '../services/s3-upload';
+import passport from 'passport';
 const router = Router();
 
 router.get('/pets', getPets);
 
-router.get('/adopted-pets', isAdmin, getAdoptedPets);
+router.get(
+  '/adopted-pets',
+  passport.authenticate('isAdmin', { session: false }),
+  getAdoptedPets
+);
 
 router.get('/pet/:petId', getPet);
 
-router.put('/pet/update-followUpDate/:petId', isAdmin, updateFollowUpDate);
+router.put(
+  '/pet/update-followUpDate/:petId',
+  passport.authenticate('isAdmin', { session: false }),
+  updateFollowUpDate
+);
 
 router.post(
   '/pet',
-  isAdmin,
+  passport.authenticate('isAdmin', { session: false }),
   [
     body('name')
       .trim()
@@ -60,7 +69,7 @@ router.post(
 
 router.put(
   '/pet/:petId',
-  isAdmin,
+  passport.authenticate('isAdmin', { session: false }),
   [
     body('name')
       .trim()
@@ -93,18 +102,22 @@ router.put(
   updatePet
 );
 
-router.delete('/pet/:petId', isAdmin, deletePet);
+router.delete(
+  '/pet/:petId',
+  passport.authenticate('isAdmin', { session: false }),
+  deletePet
+);
 
 router.post(
   '/pet/upload/:petId',
-  isAdmin,
+  passport.authenticate('isAdmin', { session: false }),
   upload.array('images[]', 3),
   uploadPetPictures
 );
 
 router.post(
   '/pet/get-by-name',
-  isAdmin,
+  passport.authenticate('isAdmin', { session: false }),
   [
     body('name')
       .trim()

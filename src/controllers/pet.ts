@@ -75,7 +75,7 @@ export const createPet = async (req: Request, res: Response, next: NextFunction)
       employee: newPet.employee,
       followUpDate: newPet.followUpDate,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -217,7 +217,7 @@ export const deletePet = async (req: Request, res: Response, next: NextFunction)
     res.status(200).json({
       msg: 'Mascota eliminada',
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -240,7 +240,7 @@ export const getPets = async (req: Request, res: Response, next: NextFunction) =
     }
 
     res.status(200).json({ pets, totalPages: Math.ceil(totalPets / limit) });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -292,7 +292,7 @@ export const uploadPetPictures = async (
       adopteeId: updatedPet?.adopteeId,
       employee: updatedPet?.employee,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -334,7 +334,7 @@ export const sendEmail = async (req: Request, res: Response, next: NextFunction)
     console.log(`email enviado ${info.messageId}`);
 
     res.status(201).json({ msg: 'Consulta enviada' });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -348,17 +348,19 @@ export const getPetByName = async (req: Request, res: Response, next: NextFuncti
   console.log(name);
 
   try {
-    const pets = await Pet.find({ name: { $regex: name } }).populate('adopteeId');
+    const pets = await Pet.find({ name: { $regex: name }, status: 1 }).populate(
+      'adopteeId'
+    );
 
     if (!pets) {
-      res.status(404).json({ msg: 'Mascotas no encontradas' });
+      return res.status(404).json({ msg: 'Mascotas no encontradas' });
     }
 
     res.status(200).json({
       msg: 'Mascota encontrada',
       pets,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -384,7 +386,7 @@ export const getAdoptedPets = async (req: Request, res: Response, next: NextFunc
     }
 
     res.status(200).json({ pets, totalPages: Math.ceil(totalPets / limit) });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -428,7 +430,7 @@ export const updateFollowUpDate = async (
       employee: pet?.employee,
       followUpDate: pet?.followUpDate,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };

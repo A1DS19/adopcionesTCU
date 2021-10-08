@@ -66,7 +66,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
       direction: newUser.direction,
       donation: newUser.donation,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -121,7 +121,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
       direction: existingUser.direction,
       donation: existingUser.donation,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -152,7 +152,7 @@ export const getCurrentUser = async (req: Request, res: Response, next: NextFunc
       direction: user?.direction || '',
       existingUser: user?.donation,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -197,7 +197,7 @@ export const updateUserData = async (req: Request, res: Response, next: NextFunc
       direction: updatedUser?.direction,
       donation: updatedUser.donation,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -217,7 +217,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     res.status(200).json({
       msg: 'Usuario eliminado',
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -254,7 +254,7 @@ export const updateUserPassword = async (
     res.status(201).json({
       msg: 'Contrasena actualizada',
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -290,7 +290,7 @@ export const uploadUserPFP = async (req: Request, res: Response, next: NextFunct
       photoURL: updatedUser?.photoURL,
       wishlist: updatedUser?.wishlist,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -328,7 +328,7 @@ export const addFavorite = async (req: Request, res: Response, next: NextFunctio
       photoURL: user?.photoURL,
       wishlist: user?.wishlist,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -350,7 +350,7 @@ export const getFavorite = async (req: Request, res: Response, next: NextFunctio
     const pets = await User.findById(userId).populate('wishlist').select('wishlist');
 
     res.status(201).json(pets?.wishlist);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };

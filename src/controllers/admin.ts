@@ -22,7 +22,7 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
     }
 
     res.status(200).json({ users, totalPages: Math.ceil(totalUsers / limit) });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -49,7 +49,7 @@ export const getUserByCedula = async (
       msg: 'usuario encontrado',
       users,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -118,7 +118,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
       direction: newUser?.direction,
       donation: newUser.donation,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -150,7 +150,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
       direction: user?.direction || '',
       donation: user?.donation,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -175,7 +175,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     res.status(200).json({
       msg: 'Usuario eliminado',
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
@@ -225,7 +225,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
       direction: updatedUser?.direction || '',
       donation: updatedUser.donation,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ msg: err.message });
   }
 };
