@@ -17,13 +17,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 (async () => {
+  require('./config/passportAuth');
   app.use(cors());
   app.use(bodyParser.json());
   app.use(morgan('dev'));
   app.use(helmet());
   app.use(compression());
   app.use(passport.initialize());
-  require('./config/passportAuth');
 
   app.use('/auth', authRoutes);
   app.use('/adoptions', petsRoutes);
@@ -35,7 +35,7 @@ const PORT = process.env.PORT || 5000;
     });
   });
 
-  mongoConnection();
+  await mongoConnection();
   app.listen(PORT, () => {
     console.log(`SERVER STARTED, PORT: ${PORT}`.cyan);
   });
