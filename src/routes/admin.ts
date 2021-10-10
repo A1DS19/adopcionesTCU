@@ -12,10 +12,9 @@ import { isAdmin } from '../middleware/isAdmin';
 import passport from 'passport';
 const router = Router();
 
-router.get('/users', passport.authenticate('isAdmin', { session: false }), getUsers);
+router.get('/users', getUsers);
 router.post(
   '/users/get-user-cedula',
-  passport.authenticate('isAdmin', { session: false }),
   [
     body('cedula')
       .trim()
@@ -26,15 +25,10 @@ router.post(
   ],
   getUserByCedula
 );
-router.get(
-  '/user/:userId',
-  passport.authenticate('isAdmin', { session: false }),
-  getUser
-);
+router.get('/user/:userId', getUser);
 
 router.post(
   '/user',
-  passport.authenticate('isAdmin', { session: false }),
   [
     body('email')
       .trim()
@@ -62,7 +56,6 @@ router.post(
 );
 router.put(
   '/user/:userId',
-  passport.authenticate('isAdmin', { session: false }),
   [
     body('email')
       .trim()
@@ -84,10 +77,6 @@ router.put(
   ],
   updateUser
 );
-router.delete(
-  '/user/:userId',
-  passport.authenticate('isAdmin', { session: false }),
-  deleteUser
-);
+router.delete('/user/:userId', deleteUser);
 
 export { router };

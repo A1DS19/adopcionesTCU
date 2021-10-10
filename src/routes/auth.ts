@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { body } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import { upload } from '../services/s3-upload';
@@ -61,6 +61,11 @@ router.post(
           return next(err);
         }
 
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json(errors.array());
+        }
+
         if (!user) {
           return res.status(400).json({ err: 'Datos invalidos' });
         }
@@ -115,6 +120,11 @@ router.post(
       try {
         if (err) {
           return next(err);
+        }
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(422).json(errors.array());
         }
 
         if (!user) {
