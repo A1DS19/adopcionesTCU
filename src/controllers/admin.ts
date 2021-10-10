@@ -229,3 +229,27 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     res.status(500).json({ msg: err.message });
   }
 };
+
+export const generateNewUserPassword = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const userId = req.params.id;
+    const newPassword = await bcrypt.hash('abcde123', 10);
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { password: newPassword },
+      { new: true }
+    );
+
+    if (!user) {
+      res.status(402).json({ err: 'No se pudo realizar gestion' });
+    }
+
+    res.status(202).json({ msg: 'Nueva contraseña generada "abcde123"' });
+  } catch (err: any) {
+    res.status(500).json({ err: err.message });
+  }
+};

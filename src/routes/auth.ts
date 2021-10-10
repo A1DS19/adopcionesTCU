@@ -15,6 +15,7 @@ import {
   getFavorite,
 } from '../controllers/auth';
 import { isAuth } from '../middleware/isAuth';
+import { User } from '../models/user';
 const router = Router();
 
 router.get(
@@ -95,11 +96,7 @@ router.post(
 router.post(
   '/register',
   [
-    body('email')
-      .trim()
-      .isEmail()
-      .normalizeEmail()
-      .withMessage('Debe agregar un email valido'),
+    body('email').trim().isEmail().withMessage('Debe agregar un email valido'),
     body('password')
       .trim()
       .isLength({ min: 6 })
@@ -123,7 +120,7 @@ router.post(
         }
 
         if (!user) {
-          return res.status(400).json({ err: 'Datos invalidos' });
+          return res.status(400).json({ err });
         }
 
         req.login(user, () => {

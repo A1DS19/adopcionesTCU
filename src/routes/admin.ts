@@ -6,6 +6,7 @@ import {
   deleteUser,
   updateUser,
   getUserByCedula,
+  generateNewUserPassword,
 } from '../controllers/admin';
 import { body } from 'express-validator';
 import { isAdmin } from '../middleware/isAdmin';
@@ -13,6 +14,9 @@ import passport from 'passport';
 const router = Router();
 
 router.get('/users', getUsers);
+
+router.put('/user/:id/new-password', generateNewUserPassword);
+
 router.post(
   '/users/get-user-cedula',
   [
