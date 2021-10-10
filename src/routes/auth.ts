@@ -151,7 +151,6 @@ router.post(
 
 router.put(
   '/user/:userId',
-  passport.authenticate('isAuth', { session: false }),
   [
     body('displayName')
       .trim()
@@ -168,7 +167,6 @@ router.put(
 
 router.put(
   '/user-password/:userId',
-  passport.authenticate('isAuth', { session: false }),
   [
     body('oldPassword')
       .trim()
@@ -182,22 +180,9 @@ router.put(
   updateUserPassword
 );
 
-router.put(
-  '/user/add-favorite/:userId/:petId/:exists',
-  passport.authenticate('isAuth', { session: false }),
-  addFavorite
-);
-router.get(
-  '/user/get-favorite/:userId',
-  passport.authenticate('isAuth', { session: false }),
-  getFavorite
-);
-
-router.delete(
-  '/user/:userId',
-  passport.authenticate('isAuth', { session: false }),
-  deleteUser
-);
+router.put('/user/add-favorite/:userId/:petId/:exists', addFavorite);
+router.get('/user/get-favorite/:userId', getFavorite);
+router.delete('/user/:userId', deleteUser);
 
 // router.post('/user/upload/:userId', isAuth, upload.single('image'), uploadUserPFP);
 
