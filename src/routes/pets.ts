@@ -19,23 +19,14 @@ const router = Router();
 
 router.get('/pets', getPets);
 
-router.get(
-  '/adopted-pets',
-  passport.authenticate('isAdmin', { session: false }),
-  getAdoptedPets
-);
+router.get('/adopted-pets', getAdoptedPets);
 
 router.get('/pet/:petId', getPet);
 
-router.put(
-  '/pet/update-followUpDate/:petId',
-  passport.authenticate('isAdmin', { session: false }),
-  updateFollowUpDate
-);
+router.put('/pet/update-followUpDate/:petId', updateFollowUpDate);
 
 router.post(
   '/pet',
-  passport.authenticate('isAdmin', { session: false }),
   [
     body('name')
       .trim()
@@ -69,7 +60,6 @@ router.post(
 
 router.put(
   '/pet/:petId',
-  passport.authenticate('isAdmin', { session: false }),
   [
     body('name')
       .trim()
@@ -102,22 +92,12 @@ router.put(
   updatePet
 );
 
-router.delete(
-  '/pet/:petId',
-  passport.authenticate('isAdmin', { session: false }),
-  deletePet
-);
+router.delete('/pet/:petId', deletePet);
 
-router.post(
-  '/pet/upload/:petId',
-  passport.authenticate('isAdmin', { session: false }),
-  upload.array('images[]', 3),
-  uploadPetPictures
-);
+router.post('/pet/upload/:petId', upload.array('images[]', 3), uploadPetPictures);
 
 router.post(
   '/pet/get-by-name',
-  passport.authenticate('isAdmin', { session: false }),
   [
     body('name')
       .trim()
