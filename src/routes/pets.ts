@@ -94,12 +94,7 @@ router.put(
 
 router.delete('/pet/:petId', deletePet);
 
-router.post(
-  '/pet/upload/:petId',
-  passport.authenticate('isAdmin', { session: false }),
-  upload.array('images[]', 3),
-  uploadPetPictures
-);
+router.post('/pet/upload/:petId', upload.array('images[]', 3), uploadPetPictures);
 
 router.post(
   '/pet/get-by-name',
