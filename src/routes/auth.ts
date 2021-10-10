@@ -46,12 +46,7 @@ router.get(
 router.post(
   '/login',
   [
-    body('email')
-      .trim()
-      .not()
-      .isEmpty()
-      .normalizeEmail()
-      .withMessage('Debe su email valido'),
+    body('email').trim().not().isEmpty().withMessage('Debe su email valido'),
     body('password').trim().not().isEmpty().withMessage('Debe agregar una contrasena'),
   ],
   (req: Request, res: Response, next: NextFunction) => {
