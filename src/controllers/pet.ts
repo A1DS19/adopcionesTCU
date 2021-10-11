@@ -345,12 +345,19 @@ export const getPetByName = async (req: Request, res: Response, next: NextFuncti
     return res.status(422).json(errors.array());
   }
   const { name } = req.body;
-  console.log(name);
 
   try {
-    const pets = await Pet.find({ name: { $regex: name }, status: 1 }).populate(
-      'adopteeId'
-    );
+    let pets = null;
+
+    pets = await Pet.find({ name: { $regex: name }, status: 1 });
+
+    pets.forEach(async (pet) => {
+      if (pet.adopted === 'true') {
+        pets = await Pet.find({ name: { $regex: name }, status: 1 }).populate(
+          'adopteeId'
+        );
+      }
+    });
 
     if (!pets) {
       return res.status(404).json({ msg: 'Mascotas no encontradas' });

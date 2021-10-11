@@ -25,7 +25,7 @@ const PetSchema: Schema = new Schema(
     adopted: { type: String, default: 'false' },
     photosUrl: [{ type: String }],
     description: { type: String },
-    size: { type: String, default: 'pequeno' },
+    size: { type: String, default: 'pequeño' },
     adoptionDate: { type: Date, default: new Date() },
     adoptionPlace: { type: String },
     adopteeId: { type: String, ref: 'User' },
