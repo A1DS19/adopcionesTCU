@@ -18,36 +18,37 @@ import { isAuth } from '../middleware/isAuth';
 import { User } from '../models/user';
 const router = Router();
 
-router.get(
-  '/user/',
-  passport.authenticate('isAuth', { session: false }),
-  async (req, res) => {
-    if (!req.user) {
-      return res.status(401).json({ err: 'No autenticatido' });
-    }
+// router.get(
+//   '/user/:userId',
+//   passport.authenticate('isAuth', { session: false }),
+//   async (req, res) => {
+//     if (!req.user) {
+//       return res.json({});
+//     }
 
-    res.json({
-      id: (req.user as any).id,
-      name: (req.user as any).name,
-      email: (req.user as any).email,
-      lastName: (req.user as any).lastName,
-      isAdmin: (req.user as any).isAdmin,
-      displayName: (req.user as any).displayName,
-      createdAt: (req.user as any).createdAt,
-      photoURL: (req.user as any).photoURL,
-      wishlist: (req.user as any).wishlist,
-      cedula: (req.user as any).cedula,
-      phone: (req.user as any).phone,
-      direction: (req.user as any).direction || '',
-      existingUser: (req.user as any).donation,
-    });
-  }
-);
+//     res.json({
+//       id: (req.user as any).id,
+//       name: (req.user as any).name,
+//       email: (req.user as any).email,
+//       lastName: (req.user as any).lastName,
+//       isAdmin: (req.user as any).isAdmin,
+//       displayName: (req.user as any).displayName,
+//       createdAt: (req.user as any).createdAt,
+//       photoURL: (req.user as any).photoURL,
+//       wishlist: (req.user as any).wishlist,
+//       cedula: (req.user as any).cedula,
+//       phone: (req.user as any).phone,
+//       direction: (req.user as any).direction || '',
+//       existingUser: (req.user as any).donation,
+//     });
+//   }
+// );
+router.get('/user/:userId', getCurrentUser);
 
 router.post(
   '/login',
   [
-    body('email').trim().not().isEmpty().withMessage('Debe su email valido'),
+    body('email').trim().isEmail().not().isEmpty().withMessage('Debe su email valido'),
     body('password').trim().not().isEmpty().withMessage('Debe agregar una contrasena'),
   ],
   (req: Request, res: Response, next: NextFunction) => {

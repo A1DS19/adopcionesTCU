@@ -34,11 +34,7 @@ router.get('/user/:userId', getUser);
 router.post(
   '/user',
   [
-    body('email')
-      .trim()
-      .isEmail()
-      .normalizeEmail()
-      .withMessage('Debe agregar un email valido'),
+    body('email').trim().isEmail().withMessage('Debe agregar un email valido'),
     body('password')
       .trim()
       .isLength({ min: 6 })
@@ -61,13 +57,7 @@ router.post(
 router.put(
   '/user/:userId',
   [
-    body('email')
-      .trim()
-      .isEmail()
-      .normalizeEmail()
-      .withMessage('Debe agregar un email valido'),
-    body('name').trim().not().isEmpty().withMessage('El nombre es requerido'),
-    body('lastName').trim().not().isEmpty().withMessage('El apellido es requerido'),
+    body('email').trim().isEmail().withMessage('Debe agregar un email valido'),
     body('isAdmin')
       .trim()
       .not()
